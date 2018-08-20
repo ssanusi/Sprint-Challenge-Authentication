@@ -37,12 +37,11 @@ function register(req, res) {
 
 function login(req, res) {
   // implement user login
-  const { username, password } =  req.body;
-  const user = { username , password }
-  db('users').where(username).first()
+  const credentials = req.body;
+  db('users').where({ username : credentials.username }).first()
     .then( response => {
-      if(response && bcrypt.compareSync(user.password, response.password)){
-        const token = generateToken(user)
+      if(response && bcrypt.compareSync(credentials.password, response.password)){
+        const token = generateToken(credentials)
         res.status(200).json(token)
       }
     })
