@@ -15,13 +15,15 @@ function register(req, res) {
   const user = { username, password }
   const hash = bcrypt.hashSync(user.password, 14)
   user.password = hash
-  db('users').insert(users)
+  db('users').insert(user)
     .then( response => {
+      console.log(response)
         const id = response[0]
         db('users').where({ id })
           .then( response => {
+            console.log('response', response )
             const token = generateToken(response)
-             res.status(200).json(response)
+             res.status(200).json(token)
           })
           .catch(err => {
             res.status(404).json({ error : err })
@@ -61,3 +63,4 @@ function getJokes(req, res) {
       res.status(500).json({ message: 'Error Fetching Jokes', error: err });
     });
 }
+

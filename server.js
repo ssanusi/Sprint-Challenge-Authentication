@@ -1,6 +1,6 @@
 const express = require('express');
 const cors = require('cors');
-
+const logger = require('morgan')
 const configureRoutes = require('./config/routes');
 
 const server = express();
@@ -10,6 +10,7 @@ const corsOptions = {
   // then pass this object to the cors() function
 };
 
+server.use(logger('dev'))
 server.use(express.json());
 server.use(cors());
 
